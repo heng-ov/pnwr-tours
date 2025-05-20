@@ -124,7 +124,6 @@ class Map extends React.Component {
     activeDataset: PropTypes.string,
     showRestrictions: PropTypes.object,
     coordinates: PropTypes.array,
-    showDirectionsPanel: PropTypes.bool,
     showSettings: PropTypes.bool,
   }
 
@@ -284,7 +283,6 @@ class Map extends React.Component {
     })
 
     const getHeightData = this.getHeightData
-    const { showDirectionsPanel } = this.props
     this.hg = L.control.heightgraph({
       mappings: colorMappings,
       graphStyle: {
@@ -305,9 +303,7 @@ class Map extends React.Component {
       highlightStyle: {
         color: 'blue',
       },
-      width: showDirectionsPanel
-        ? window.innerWidth * 0.75
-        : window.innerWidth * 0.9,
+      width: window.innerWidth * 0.75,
     })
     this.hg.addTo(this.map)
     const hg = this.hg
@@ -441,12 +437,9 @@ class Map extends React.Component {
   }
 
   zoomToCoordinates = () => {
-    const { coordinates, showDirectionsPanel, showSettings } = this.props
+    const { coordinates, showSettings } = this.props
     const maxZoom = coordinates.length === 1 ? 11 : 18
-    const paddingTopLeft = [
-      screen.width < 550 ? 50 : showDirectionsPanel ? 420 : 50,
-      50,
-    ]
+    const paddingTopLeft = [screen.width < 550 ? 50 : 420, 50]
 
     const paddingBottomRight = [
       screen.width < 550 ? 50 : showSettings ? 420 : 50,
@@ -1150,7 +1143,6 @@ const mapStateToProps = (state) => {
     showRestrictions,
     activeDataset,
     coordinates,
-    showDirectionsPanel,
     showSettings,
   } = common
   return {
@@ -1161,7 +1153,6 @@ const mapStateToProps = (state) => {
     activeTab,
     activeDataset,
     showRestrictions,
-    showDirectionsPanel,
     showSettings,
   }
 }

@@ -7,7 +7,6 @@ import {
   SHOW_SETTINGS,
   ZOOM_TO,
   RESET_SETTINGS,
-  TOGGLE_DIRECTIONS,
   UPDATE_DATETIME,
 } from './types'
 
@@ -46,10 +45,6 @@ export const updateTab = (activeTab) => ({
 
 export const doShowSettings = () => ({
   type: SHOW_SETTINGS,
-})
-
-export const toggleDirections = () => ({
-  type: TOGGLE_DIRECTIONS,
 })
 
 export const resetSettings = () => ({

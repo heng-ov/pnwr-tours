@@ -7,7 +7,6 @@ import {
   SHOW_SETTINGS,
   ZOOM_TO,
   RESET_SETTINGS,
-  TOGGLE_DIRECTIONS,
   UPDATE_DATETIME,
 } from 'actions/types'
 import {
@@ -18,7 +17,6 @@ import {
 const initialState = {
   activeTab: 0,
   showSettings: false,
-  showDirectionsPanel: true,
   coordinates: [],
   loading: false,
   message: {
@@ -62,13 +60,6 @@ export const common = (state = initialState, action) => {
       return {
         ...state,
         showSettings: !state.showSettings,
-      }
-    }
-
-    case TOGGLE_DIRECTIONS: {
-      return {
-        ...state,
-        showDirectionsPanel: !state.showDirectionsPanel,
       }
     }
 

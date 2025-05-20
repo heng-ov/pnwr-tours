@@ -6,16 +6,17 @@ import 'react-modern-drawer/dist/index.css'
 import { toast } from 'react-toastify'
 import DirectionsControl from './Directions'
 import IsochronesControl from './Isochrones'
+import ArchiveControl from './Archive'
 import DirectionOutputControl from './Directions/OutputControl'
 import IsochronesOutputControl from './Isochrones/OutputControl'
-import { Segment, Tab, Button, Icon } from 'semantic-ui-react'
+import ArchiveOutputControl from './Archive/OutputControl'
+import { Segment, Tab } from 'semantic-ui-react'
 import {
   updateTab,
   updateProfile,
   updatePermalink,
   zoomTo,
   resetSettings,
-  toggleDirections,
 } from 'actions/commonActions'
 import { fetchReverseGeocodePerma } from 'actions/directionsActions'
 import {
@@ -38,7 +39,6 @@ class MainControl extends React.Component {
     message: PropTypes.object,
     activeDataset: PropTypes.string,
     activeTab: PropTypes.number,
-    showDirectionsPanel: PropTypes.bool,
     lastUpdate: PropTypes.object,
   }
 
@@ -173,28 +173,13 @@ class MainControl extends React.Component {
     dispatch(updatePermalink())
   }
 
-  handleDirectionsToggle = (event, data) => {
-    const { dispatch } = this.props
-    const { showDirectionsPanel } = this.props
-    if (!showDirectionsPanel) {
-      document
-        .getElementsByClassName('heightgraph-container')[0]
-        .setAttribute('width', window.innerWidth * 0.75)
-    } else {
-      document
-        .getElementsByClassName('heightgraph-container')[0]
-        .setAttribute('width', window.innerWidth * 0.9)
-    }
-    dispatch(toggleDirections())
-  }
-
   render() {
     const { activeTab } = this.props
     const appPanes = [
       {
         menuItem: 'Directions',
         render: () => (
-          <Tab.Pane style={{ padding: '0 0 0 0' }} attached={false}>
+          <Tab.Pane style={{ padding: '0 0 0 0' }} attached={true}>
             <DirectionsControl />
           </Tab.Pane>
         ),
@@ -202,8 +187,16 @@ class MainControl extends React.Component {
       {
         menuItem: 'Isochrones',
         render: () => (
-          <Tab.Pane style={{ padding: '0 0 0 0' }} attached={false}>
+          <Tab.Pane style={{ padding: '0 0 0 0' }} attached={true}>
             <IsochronesControl />
+          </Tab.Pane>
+        ),
+      },
+      {
+        menuItem: 'Archive',
+        render: () => (
+          <Tab.Pane style={{ padding: '0 0 0 0' }} attached={true}>
+            <ArchiveControl />
           </Tab.Pane>
         ),
       },
@@ -211,17 +204,9 @@ class MainControl extends React.Component {
 
     const ServiceTabs = () => (
       <>
-        <Button
-          icon
-          style={{ float: 'right', marginLeft: '5px' }}
-          onClick={this.handleDirectionsToggle}
-        >
-          <Icon name="close" />
-        </Button>
         <Tab
           activeIndex={activeTab}
           onTabChange={this.handleTabChange}
-          menu={{ pointing: true }}
           panes={appPanes}
         />
       </>
@@ -229,21 +214,9 @@ class MainControl extends React.Component {
 
     return (
       <>
-        <Button
-          primary
-          style={{
-            zIndex: 998,
-            top: '10px',
-            left: '10px',
-            position: 'absolute',
-          }}
-          onClick={this.handleDirectionsToggle}
-        >
-          {activeTab === 0 ? 'Directions' : 'Isochrones'}
-        </Button>
         <Drawer
           enableOverlay={false}
-          open={this.props.showDirectionsPanel}
+          open={true}
           direction="left"
           size="400"
           style={{
@@ -257,9 +230,16 @@ class MainControl extends React.Component {
                 <ServiceTabs />
               </div>
             </Segment>
-            {(activeTab === 0 && <DirectionOutputControl />) || (
-              <IsochronesOutputControl />
-            )}
+            {() => {
+              switch (activeTab) {
+                case 0:
+                  return <DirectionOutputControl />
+                case 1:
+                  return <IsochronesOutputControl />
+                case 2:
+                  return <ArchiveOutputControl />
+              }
+            }}
           </div>
           <div
             style={{
@@ -284,11 +264,10 @@ class MainControl extends React.Component {
 }
 
 const mapStateToProps = (state) => {
-  const { message, activeTab, showDirectionsPanel } = state.common
+  const { message, activeTab } = state.common
   return {
     message,
     activeTab,
-    showDirectionsPanel,
   }
 }
 
