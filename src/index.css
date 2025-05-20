@@ -13,16 +13,16 @@ i.help.grey.icon {
   color: #9943f5 !important;
 }
 
-.fossgis-logo {
-  background-image: url('images/fossgis.png');
-  height: 31px;
-  width: 150px;
+.pca-logo {
+  background-image: url('images/pca.png');
+  height: 100px;
+  width: 100px;
   background-position: center;
   background-repeat: no-repeat;
 }
 
-.valhalla-logo {
-  background-image: url('images/valhalla.png');
+.pnwr-logo {
+  background-image: url('images/pnwr.png');
   height: 100px;
   width: 100px;
   background-position: center;

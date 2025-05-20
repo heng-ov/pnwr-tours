@@ -173,28 +173,28 @@ class Map extends React.Component {
 
     //and for the sake of advertising your company, you may add a logo to the map
     const brand = L.control({
-      position: 'bottomleft',
+      position: 'bottomright',
     })
     brand.onAdd = (map) => {
       const div = L.DomUtil.create('div', 'brand')
       div.innerHTML =
-        '<a href="https://fossgis.de/news/2021-11-12_funding_valhalla/" target="_blank"><div class="fossgis-logo"></div></a>'
+        '<a href="https://pca.org" target="_blank"><div class="pca-logo"></div></a>'
       return div
     }
 
     this.map.addControl(brand)
 
-    const valhallaBrand = L.control({
-      position: 'bottomleft',
+    const pnwrBrand = L.control({
+      position: 'bottomright',
     })
-    valhallaBrand.onAdd = (map) => {
+    pnwrBrand.onAdd = (map) => {
       const div = L.DomUtil.create('div', 'brand')
       div.innerHTML =
-        '<a href="https://github.com/valhalla/valhalla" target="_blank"><div class="valhalla-logo"></div></a>'
+        '<a href="https://www.pnwr.org/" target="_blank"><div class="pnwr-logo"></div></a>'
       return div
     }
 
-    this.map.addControl(valhallaBrand)
+    this.map.addControl(pnwrBrand)
 
     const popup = L.popup({ className: 'valhalla-popup' })
 
@@ -249,21 +249,6 @@ class Map extends React.Component {
       localStorage.setItem('last_center', last_center)
     })
 
-    // add Leaflet-Geoman controls with some options to the map
-    this.map.pm.addControls({
-      position: 'topright',
-      drawCircle: false,
-      drawMarker: false,
-      drawPolyline: false,
-      cutPolygon: false,
-      drawCircleMarker: false,
-      drawRectangle: false,
-      dragMode: true,
-      allowSelfIntersection: false,
-      editPolygon: true,
-      deleteLayer: true,
-    })
-
     this.map.pm.setGlobalOptions({
       layerGroup: excludePolygonsLayer,
     })
@@ -284,6 +269,7 @@ class Map extends React.Component {
 
     const getHeightData = this.getHeightData
     this.hg = L.control.heightgraph({
+      position: 'topright',
       mappings: colorMappings,
       graphStyle: {
         opacity: 0.9,
@@ -890,14 +876,6 @@ class Map extends React.Component {
     }
   }
 
-  handleOpenOSM = () => {
-    const { map } = this
-    const { lat, lng } = map.getCenter()
-    const zoom = map.getZoom()
-    const osmURL = `https://www.openstreetmap.org/#map=${zoom}/${lat}/${lng}`
-    window.open(osmURL, '_blank')
-  }
-
   render() {
     const { activeTab } = this.props
     const MapPopup = (isInfo) => {
@@ -1114,13 +1092,6 @@ class Map extends React.Component {
             theme="light"
           />
           <div id="map" className="map-style" />
-          <button
-            className="ui primary button"
-            id="osm-button"
-            onClick={this.handleOpenOSM}
-          >
-            Open OSM
-          </button>
         </div>
         <div>
           {this.state.showPopup && leafletPopupDiv
