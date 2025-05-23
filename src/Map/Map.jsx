@@ -398,9 +398,6 @@ class Map extends React.Component {
     this.addIsoCenter()
     this.addIsochrones()
 
-    if (!R.equals(this.props.coordinates, prevProps.coordinates)) {
-      this.zoomToCoordinates()
-    }
     if (
       prevProps.directions.zoomObj.timeNow <
       this.props.directions.zoomObj.timeNow
@@ -420,23 +417,6 @@ class Map extends React.Component {
       isoPolygonLayer.clearLayers()
       isoLocationsLayer.clearLayers()
     }
-  }
-
-  zoomToCoordinates = () => {
-    const { coordinates, showSettings } = this.props
-    const maxZoom = coordinates.length === 1 ? 11 : 18
-    const paddingTopLeft = [screen.width < 550 ? 50 : 420, 50]
-
-    const paddingBottomRight = [
-      screen.width < 550 ? 50 : showSettings ? 420 : 50,
-      50,
-    ]
-
-    this.map.fitBounds(coordinates, {
-      paddingBottomRight,
-      paddingTopLeft,
-      maxZoom,
-    })
   }
 
   zoomTo = (idx) => {
